@@ -4,14 +4,10 @@ from django.shortcuts import render
 import zipfile
 import os
 import shutil
-
 import boto3
 import gspread
 import uuid
 import requests
-import json
-from django.shortcuts import render, redirect
-from django.http import HttpResponse
 import re
 from bs4 import BeautifulSoup
 from oauth2client.service_account import ServiceAccountCredentials
