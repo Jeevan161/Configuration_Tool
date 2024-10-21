@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Details</title>
+    <!-- Include Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Task Status</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>Status:</h5>
+                        <p class="font-weight-bold">{{ task_status }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <h5>Exception Message:</h5>
+                        <p>{{ exception_message|safe }}</p> <!-- Allow HTML content in exception_message -->
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <h5>Task Output:</h5>
+                        {% if task_status == "SUCCESS" %}
+                        <a href="{{ output_link }}" class="btn btn-success" target="_blank">Download Output</a>
+                        {% else %}
+                        <span class="text-danger">No output available for this task.</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer text-right">
+                <a href="/" class="btn btn-secondary">Go Back</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+

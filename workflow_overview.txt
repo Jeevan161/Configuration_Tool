@@ -1,0 +1,59 @@
+### Workflow Overview for Django Application
+
+#### 1. User Actions:
+1. **Upload Zip Files**:
+   - The user can upload a zip file containing multiple `.json` files using the web interface.
+   - The user provides additional inputs, such as a title, parent ID, and other parameters required for processing.
+
+2. **Configure JSON File Renaming**:
+   - During the upload process, the application will rename all `.json` files in the zip using a generated UUID, while keeping the original directory structure intact.
+   - The user doesn’t need to worry about the details; they only provide the zip file, and the application handles the rest.
+
+3. **AWS S3 Upload**:
+   - After processing the zip file, the application uploads it to an AWS S3 bucket.
+   - The user will receive a public URL of the uploaded file, which can be shared or used for other integrations.
+
+4. **Google Sheets Integration**:
+   - Based on the inputs provided, the application generates structured JSON data.
+   - This data is uploaded to a newly created Google Spreadsheet, and the user is given access to view and edit the spreadsheet.
+   - The Google Sheets URL is provided to the user, giving them direct access to the data.
+
+5. **Monitor Backend Tasks**:
+   - The application can integrate with an external backend service, allowing users to initiate tasks such as unlocking resources or managing content.
+   - Users can monitor the status of these tasks and receive updates directly via the web interface.
+
+#### 2. Application Operations:
+1. **Processing Zip Files**:
+   - The application extracts the zip file, renames the `.json` files to a new UUID, and preserves the original folder structure.
+   - It then re-compresses the processed files into a new zip, ready for further operations.
+
+2. **Uploading to AWS S3**:
+   - The processed zip file is securely uploaded to an S3 bucket, using AWS credentials.
+   - A public link is generated for the uploaded file, allowing easy access and sharing.
+
+3. **Generating and Uploading JSON Data to Google Sheets**:
+   - The application uses inputs like resource IDs, titles, and durations to generate structured JSON data.
+   - The JSON data is then added to a new Google Spreadsheet, with relevant permissions set up for specified users.
+   - Each section of the JSON data is placed in its own sheet within the spreadsheet for easy management.
+
+4. **Session Management and External Backend Integration**:
+   - The application manages a session with an external backend service to perform tasks like logging in, submitting forms, and monitoring task statuses.
+   - It uses secure authentication to maintain active sessions, ensuring smooth and automated task processing.
+
+5. **CSRF Token Retrieval**:
+   - When the application needs to interact with the external backend, it must first obtain a CSRF token for secure communication.
+   - **Login URL**: The CSRF token is fetched from the login page at `https://nkb-backend-ccbp-beta.earlywave.in/admin/login/`. This is done by sending a GET request and parsing the response HTML to extract the token.
+   - **Form Submission URL**: For submitting form data (like loading sheets or unlocking resources), a CSRF token is also fetched from the URL `https://nkb-backend-ccbp-beta.earlywave.in/admin/nkb_load_data/uploadfile/add/`. This ensures that subsequent POST requests are authenticated and secure.
+   - These tokens are extracted from hidden input fields within the HTML using the BeautifulSoup library, and then used in headers for further POST requests.
+
+#### 3. Overall Workflow:
+1. **User Interaction**:
+   - Users interact with a simple web interface to upload zip files and provide necessary details.
+2. **Automated Backend Processing**:
+   - Once the user submits the form, the backend handles everything: processing the zip, uploading files, creating spreadsheets, and managing tasks.
+3. **External Communication**:
+   - The application integrates seamlessly with AWS, Google Sheets, and other backend services, providing a comprehensive and automated solution.
+4. **Results Delivery**:
+   - Users are given immediate feedback, including download links, Google Sheets URLs, and task status updates, ensuring a smooth and efficient workflow.
+
+This structured approach simplifies complex operations, allowing users to perform multiple tasks with just a few inputs, while the backend manages all the heavy lifting.
